@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinkedIn Profile Review</title>
+<link rel="stylesheet" href="report.css">
+</head>
+<body>
+  <div class="toolbar no-print">
+    <div class="tb-left"><span class="mark">✦</span><b>Profile review</b><span class="muted">Check it, edit your details, then save as PDF.</span></div>
+    <div class="tb-right">
+      <details class="me"><summary>Your details</summary>
+        <label>Your name <input id="fName"></label>
+        <label>Company <input id="fCompany"></label>
+        <label>Booking link <input id="fBook"></label>
+        <label>Email <input id="fEmail"></label>
+        <button id="saveMe" class="btn ghost">Save</button>
+      </details>
+      <button id="print" class="btn">Save as PDF</button>
+    </div>
+  </div>
+  <main id="doc"></main>
+  <script src="report.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+/* Tailored resume editor. The page itself is a plain, one column, ATS friendly resume; everything else hides on print. */
+:root { --ink: #111318; --muted: #5b5f6e; --line: #e4e2ef; --violet: #6b50f5; --grad: linear-gradient(90deg, #4078f6, #6b50f5 55%, #be28d4); --bg: #f4f3f9; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.toolbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; background: #fff; border-bottom: 1px solid var(--line); }
+.tb-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.tb-left b { display: block; }
+.muted { color: var(--muted); font-size: 12.5px; }
+.tb-right { display: flex; gap: 8px; flex: none; }
+.btn { border: 0; border-radius: 999px; padding: 9px 16px; font: 600 13.5px/1 inherit; font-family: inherit; color: #fff; background: var(--ink); cursor: pointer; }
+.btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn.sm { padding: 7px 12px; font-size: 12.5px; }
+.btn:disabled { opacity: .6; cursor: progress; }
+.wrap { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; max-width: 1220px; margin: 0 auto; padding: 24px 20px 60px; align-items: start; }
+.side { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 12px; max-height: calc(100vh - 96px); overflow: auto; }
+.box { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.box h4 { margin: 0 0 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--violet); }
+.box p, .box li { font-size: 13px; margin: 4px 0; }
+.box ul { padding-left: 18px; margin: 4px 0; }
+.vers { display: flex; flex-wrap: wrap; gap: 6px; }
+.vers button { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 4px 11px; font: 600 12px inherit; font-family: inherit; cursor: pointer; }
+.vers button.on { border-color: var(--violet); color: var(--violet); }
+.score { display: flex; align-items: baseline; gap: 8px; } .score b { font-size: 24px; letter-spacing: -.02em; }
+.kw { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.kw span { font-size: 11.5px; padding: 2px 8px; border-radius: 999px; background: #eefaf3; color: #10703f; }
+.kw.miss span { background: #fff4e5; color: #9a5b00; }
+.fill { cursor: pointer; } .fill b { background: #fff1a8; padding: 0 3px; border-radius: 3px; }
+textarea { width: 100%; font: 13px/1.45 inherit; font-family: inherit; border: 1px solid var(--line); border-radius: 10px; padding: 8px; resize: vertical; }
+.warn { background: #fff8e1; border: 1px solid #f3d27a; color: #7a5300; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; }
+.hidden { display: none !important; }
+
+/* The resume page: letter size, one column, standard fonts */
+.page { background: #fff; width: 8.5in; min-height: 11in; margin: 0 auto; padding: .55in .6in; box-shadow: 0 10px 40px -18px rgba(30, 20, 90, .35); font: 10.5pt/1.38 Calibri, Carlito, Arial, sans-serif; color: #111; }
+.page h1 { font-size: 20pt; margin: 0; text-align: center; letter-spacing: -.01em; }
+.page .hl { text-align: center; font-size: 11pt; margin-top: 2px; }
+.page .ct { text-align: center; font-size: 9.5pt; color: #333; margin-top: 3px; }
+.page h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: .06em; margin: 12pt 0 4pt; padding-bottom: 2pt; border-bottom: 1px solid #222; }
+.page .ent { margin: 6pt 0 0; }
+.page .eh { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.page .eh .t { font-weight: 700; }
+.page .eh .d { white-space: nowrap; font-size: 10pt; }
+.page .es { font-style: italic; font-size: 10pt; }
+.page ul { margin: 2pt 0 0; padding-left: 16pt; }
+.page li { margin: 1.5pt 0; position: relative; }
+.page p { margin: 2pt 0; }
+.page .sk b { font-weight: 700; }
+[contenteditable]:hover { outline: 1px dashed #c9bfff; outline-offset: 2px; border-radius: 2px; }
+[contenteditable]:focus { outline: 2px solid #8b7bff; outline-offset: 2px; border-radius: 2px; }
+.page li .x { position: absolute; left: -38px; top: 0; display: none; border: 0; background: #ffe5e5; color: #b42318; border-radius: 6px; font-size: 11px; padding: 0 5px; cursor: pointer; }
+.page li:hover .x { display: inline-block; }
+.page .add { border: 0; background: none; color: var(--violet); font: 600 11px inherit; font-family: inherit; cursor: pointer; padding: 2px 0 0 16pt; }
+::highlight(ph) { background: #fff1a8; color: #111; }
+
+@media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; } .side { position: static; max-height: none; } .page { width: 100%; } }
+@page { size: letter; margin: 0; }
+@media print {
+  body { background: #fff; }
+  .no-print, .add, .x { display: none !important; }
+  .wrap { display: block; padding: 0; max-width: none; }
+  .page { box-shadow: none; width: auto; min-height: 0; margin: 0; padding: .5in .6in; }
+  [contenteditable]:hover, [contenteditable]:focus { outline: none; }
+  ::highlight(ph) { background: none; }
+}

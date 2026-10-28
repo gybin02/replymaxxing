@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReplyMaxxing</title>
+<link rel="stylesheet" href="brand.css">
+<link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brandrow">
+      <span class="ab-mark max-mark"><img src="max/max-face.svg" alt="" width="22" height="22"></span>
+      <b>ReplyMaxxing</b>
+      <span class="plan-chip hidden" id="planChip"></span>
+    </div>
+    <nav class="tabs hidden" id="tabs">
+      <button data-tab="draft" class="on">Max</button>
+      <button data-tab="posts">Posts</button>
+      <button data-tab="radar">Radar</button>
+      <button data-tab="autopilot">Autopilot</button>
+      <button data-tab="profile">Profile</button>
+      <button data-tab="account">Settings</button>
+    </nav>
+  </header>
+  <div class="pagehead hidden" id="pagehead"><h1 id="pageTitle"></h1></div>
+  <main id="view"></main>
+  <footer class="foot hidden" id="foot">
+    <div class="saved" id="savedText"></div>
+    <div class="meter-row"><span id="meterText"></span><button class="link" id="meterAction"></button></div>
+    <div class="meter"><i id="meterBar"></i></div>
+  </footer>
+  <script src="config.js"></script>
+  <script src="playbook.js"></script>
+  <script src="banner.js"></script>
+  <script src="jobs-panel.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

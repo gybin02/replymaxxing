@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume</title>
+<link rel="stylesheet" href="resume.css">
+</head>
+<body>
+  <div class="toolbar no-print">
+    <div class="tb-left"><img src="max/max-face.svg" alt="" width="26" height="26"><div><b id="tbTitle">Tailored resume</b><span class="muted" id="tbSub">Click any text to edit. Changes save on their own.</span></div></div>
+    <div class="tb-right">
+      <button id="copyTxt" class="btn ghost">Copy text</button>
+      <button id="dlDocx" class="btn ghost">Download Word</button>
+      <button id="dlPdf" class="btn">Download PDF</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <aside class="side no-print" id="side"></aside>
+    <main><div class="warn no-print hidden" id="phWarn"></div><article class="page" id="doc"></article></main>
+  </div>
+  <script src="resume.js"></script>
+</body>
+</html>
