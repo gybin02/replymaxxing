@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BossMaxxing - Boss直聘 AI 僚机</title>
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="sidepanel.css">
+  <style>
+    :root {
+      --bm-teal: #00bebd;
+      --bm-teal-dark: #009897;
+    }
+    .bm-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(0, 190, 189, 0.14);
+      color: #008b8a;
+    }
+    .ctx-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      background: var(--ab-soft);
+      border: 1px solid var(--ab-line);
+      font-size: 12px;
+    }
+    .ctx-banner b {
+      display: block;
+      font-size: 13px;
+      color: var(--ab-ink);
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img class="brand-face" src="max/max-face.svg" alt="">
+      <span>BossMaxxing</span>
+      <span class="bm-badge">Boss直聘专版</span>
+    </div>
+    <button id="syncBtn" class="link" type="button" title="重新读取当前标签页的岗位或聊天内容">↻ 同步页面</button>
+  </header>
+
+  <nav id="tabs" class="tabs">
+    <button type="button" data-tab="draft" class="on">沟通破冰</button>
+    <button type="button" data-tab="resume">简历定制</button>
+    <button type="button" data-tab="radar">跟进雷达</button>
+    <button type="button" data-tab="setup">人设设置</button>
+  </nav>
+
+  <main id="view"></main>
+
+  <footer id="foot" class="foot hidden">
+    <div id="savedText" class="saved"></div>
+    <div class="meter-row">
+      <span id="meterText"></span>
+    </div>
+    <div class="meter"><i id="meterBar"></i></div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="playbook.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

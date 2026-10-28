@@ -1,5 +1,6 @@
 import playbookData from "../data/playbook.json";
-import { Env, UserRecord, defaultPlaybookForRole } from "./store";
+import bossPlaybookData from "../data/boss_playbook.json";
+import { Env, UserRecord } from "./store";
 
 export async function callLLM(
   env: Env,
@@ -33,7 +34,28 @@ export async function callLLM(
   }
 }
 
-export function buildUserVoiceSystem(user: UserRecord): string {
+export function isBossRequest(user: UserRecord, messages?: Array<{ role: string; content: string }>, platform?: string): boolean {
+  if (platform === "boss" || user.profile?.platform === "boss") return true;
+  const text = (messages || []).map((m) => m.content || "").join(" ") + " " + (user.aboutText || "");
+  return /[\u4e00-\u9fa5]{4,}/.test(text);
+}
+
+export function buildUserVoiceSystem(user: UserRecord, isBoss = false): string {
+  if (isBoss) {
+    const parts = [
+      "你是 BossMaxxing（Boss直聘 AI 求职与招聘智能助手），精通中国互联网与各行业求职破冰、HR高情商沟通、薪资博弈与STAR/XYZ法则简历定制。",
+      "核心原则：",
+      ...bossPlaybookData.openerPlaybook.goldenRules,
+    ];
+    if (user.aboutText) parts.push(`\n【用户个人画像与核心优势】：\n${user.aboutText}`);
+    if (user.playbookText) parts.push(`\n【专属打招呼与沟通策略】：\n${user.playbookText}`);
+    if (user.training && user.training.length) {
+      const tr = user.training.map((t) => `[${t.kind.toUpperCase()}: ${t.name}]\n${t.text}`).join("\n\n");
+      parts.push(`\n【用户自定义话术规则与范例（最高优先级）】：\n${tr}`);
+    }
+    return parts.join("\n");
+  }
+
   const parts = [
     "You are Max, an elite LinkedIn AI wingman built on Brian Kwa's ReplyMaxxing methodology.",
     "Always write like a thoughtful, high-signal human — never use corporate buzzwords, em-dashes, or robotic templates.",
@@ -51,8 +73,111 @@ export async function generateDraft(
   env: Env,
   user: UserRecord,
   mode: string,
-  messages: Array<{ role: string; content: string }>
+  messages: Array<{ role: string; content: string }>,
+  platform?: string
 ): Promise<string> {
+  const boss = isBossRequest(user, messages, platform);
+
+  if (boss) {
+    let formatInstruction = "";
+    if (mode === "reply") {
+      formatInstruction = [
+        "沟通阶段可选值：破冰打招呼 | 发简历与亮优势 | 高频盘问与排雷 | 锁定面试与谈薪 | 已读不回二次激活",
+        "高情商应答原则：" + JSON.stringify(bossPlaybookData.highEqScenarios),
+        "请严格按照以下格式输出（不要多余解释）：",
+        "STAGE: <当前所处沟通阶段>",
+        "WHERE: <1句话总结当前Boss/HR的真实意图或卡点>",
+        "NEXT: <1句话给出下一步推进建议（如：顺势发附件简历 / 锁定周三下午视频面）>",
+        "",
+        "REPLY",
+        "<第1段回复话术：直接填入Boss直聘聊天框的文本，自然得体、高情商、不卑不亢>",
+        "<可选第2段短句：顺势推进下一步动作>",
+      ].join("\n");
+    } else {
+      formatInstruction = [
+        "破冰模板参考：" + JSON.stringify(bossPlaybookData.openerPlaybook.templates),
+        "请严格按照以下格式输出：",
+        "NOTE",
+        "<1句话说明本条打招呼语提取了岗位JD的哪个核心痛点及匹配策略>",
+        "OPENER",
+        "<第1段：开门见山点出核心匹配年限/方向 + 最硬核的1-2个量化成果（控制在60字内，确保手机预览前30字抓人）>",
+        "<第2段：贴合该岗位JD的具体业务补充 + 礼貌请求发简历或深聊（控制在40字内）>",
+      ].join("\n");
+    }
+
+    const sys = `${buildUserVoiceSystem(user, true)}\n\n${formatInstruction}`;
+    const llmOut = await callLLM(env, sys, messages);
+    if (llmOut) return llmOut;
+
+    // 中文 Boss直聘本地 Playbook 兜底生成
+    const lastMsg = messages[messages.length - 1]?.content || "";
+    const isRecruiter = user.profile?.role === "recruiter";
+    const targetRole = user.profile?.targetRole || "该岗位";
+    const proof = user.profile?.proof || "曾主导核心模块重构与业务增长，核心指标提升显著";
+
+    if (mode === "reply") {
+      if (/简历/.test(lastMsg)) {
+        return [
+          "STAGE: 发简历与亮优势",
+          "WHERE: 对方对你的初步背景感兴趣，正在索要或查看附件简历。",
+          "NEXT: 立即点击发送附件简历，并附上2条核心匹配点摘要。",
+          "",
+          "REPLY",
+          `好的，最新简历已发送，请您查收！结合咱们的岗位要求，我最匹配的两点是：1）深耕${targetRole}相关领域，${proof}；2）熟悉全链路落地，上手极快。`,
+          "您看本周哪天方便安排个15分钟电话或视频沟通？",
+        ].join("\n");
+      }
+      if (/薪资|待遇|目前多少|期望/.test(lastMsg)) {
+        return [
+          "STAGE: 锁定面试与谈薪",
+          "WHERE: 对方正在摸底你的薪资预期与性价比。",
+          "NEXT: 给出合理区间并把重心拉回岗位匹配度与面试沟通。",
+          "",
+          "REPLY",
+          "我目前更看重咱们团队的业务方向和匹配度，薪资方面结合我过往的产出和市场水平，期望在贵司该岗位的正常定级区间内（具体可视总包结构灵活沟通）。",
+          "方便先约个时间跟业务负责人聊聊具体业务挑战吗？",
+        ].join("\n");
+      }
+      if (/离职|空窗|为什么看机会/.test(lastMsg)) {
+        return [
+          "STAGE: 高频盘问与排雷",
+          "WHERE: HR 正在评估你的求职动机与稳定性。",
+          "NEXT: 正向回应职业规划，强调对当前岗位的强烈意愿与高稳定性。",
+          "",
+          "REPLY",
+          "前司业务目前进入平稳维护期，我个人更希望能在一个处于成长期、更有技术/业务深度的团队持续产出；看到咱们在招这个方向非常契合我的长板。",
+          "目前我状态很好，如果匹配合适可以随时快速到岗投入。",
+        ].join("\n");
+      }
+      return [
+        "STAGE: 发简历与亮优势",
+        "WHERE: 双方已建立初步沟通，适合进一步展示核心匹配度并推进约面。",
+        "NEXT: 简明回应对方问题，主动发简历或询问面试安排。",
+        "",
+        "REPLY",
+        `明白的！在${targetRole}这块我有扎实的落地经验（${proof}），跟咱们团队目前的需求非常契合。`,
+        "我先把详细简历发您过目，您看近期方便安排个简短沟通吗？",
+      ].join("\n");
+    }
+
+    if (isRecruiter) {
+      return [
+        "NOTE",
+        "采用【招聘方走心邀约型】策略：具体点出牛人背景契合度，亮出团队核心吸引力。",
+        "OPENER",
+        ...bossPlaybookData.rolePlaybooks.recruiter.sampleOpener,
+      ].join("\n");
+    }
+
+    return [
+      "NOTE",
+      `采用【成果直击型】破冰公式：黄金前30字直击「${targetRole}」核心痛点与量化成果，告别千篇一律的默认招呼语。`,
+      "OPENER",
+      `您好！仔细看了咱们「${targetRole}」的岗位要求，我过往深耕同领域业务，${proof}，技术栈与业务场景高度吻合。`,
+      "平时持续关注贵司业务方向，非常期待能加入团队即插即用，方便发份详细简历给您看看吗？",
+    ].join("\n");
+  }
+
   const postTypesText = playbookData.postPlaybook.types
     .map((t) => `- ${t.id} (${t.name}, stage: ${t.stage}): ${t.rules}`)
     .join("\n");
@@ -106,7 +231,6 @@ export async function generateDraft(
   const llmOut = await callLLM(env, sys, messages);
   if (llmOut) return llmOut;
 
-  // Fallback using cached Playbook data
   const lastMsg = messages[messages.length - 1]?.content || "";
   const role = user.profile?.role || "founder";
   const pb = (playbookData.industryPlaybooks as any)[role] || playbookData.industryPlaybooks.founder;

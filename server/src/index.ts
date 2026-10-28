@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import plansData from "../data/plans.json";
 import playbookData from "../data/playbook.json";
+import bossPlaybookData from "../data/boss_playbook.json";
 import legalData from "../data/legal.json";
 import {
   Env,
@@ -16,7 +17,7 @@ import {
   saveUser,
   verifyOtp,
 } from "./store";
-import { buildUserVoiceSystem, callLLM, generateDraft, generateProfileAnalysis } from "./llm";
+import { buildUserVoiceSystem, callLLM, generateDraft, generateProfileAnalysis, isBossRequest } from "./llm";
 
 const app = new Hono<{ Bindings: Env; Variables: { user: UserRecord } }>();
 
@@ -49,6 +50,7 @@ app.get("/welcome", (c) => c.html(legalData.welcome));
 // ---------- 2. 缓存 JSON 数据查询接口 (Playbook / Plans) ----------
 app.get("/v1/plans", (c) => c.json({ ok: true, ...plansData }));
 app.get("/v1/cache/playbook", (c) => c.json({ ok: true, playbook: playbookData }));
+app.get("/v1/cache/boss-playbook", (c) => c.json({ ok: true, playbook: bossPlaybookData }));
 app.get("/v1/cache/plans", (c) => c.json({ ok: true, plans: plansData }));
 
 // ---------- 3. 登录与认证模块 (/v1/auth/*) ----------
@@ -249,8 +251,8 @@ app.post("/v1/referral/claim", requireAuth, async (c) => {
 // ---------- 7. AI 核心生成与诊断接口 (/v1/draft, /v1/analyze, /v1/ask, /v1/ideas, /v1/trends, /v1/banner) ----------
 app.post("/v1/draft", requireAuth, async (c) => {
   const user = c.get("user");
-  const { mode = "opener", messages = [] } = await c.req.json().catch(() => ({}));
-  const text = await generateDraft(c.env, user, mode, messages);
+  const { mode = "opener", messages = [], platform } = await c.req.json().catch(() => ({}));
+  const text = await generateDraft(c.env, user, mode, messages, platform);
   const usage = await consumeCredits(c.env, user, 1, 4);
   return c.json({ ok: true, text, usage });
 });
@@ -391,10 +393,11 @@ app.post("/v1/resume/parse", requireAuth, async (c) => {
 
 app.post("/v1/resume/tailor", requireAuth, async (c) => {
   const user = c.get("user");
-  const { resume = "", job = {}, notes = "" } = await c.req.json().catch(() => ({}));
-  const sys = `${buildUserVoiceSystem(user)}
-Tailor this resume to the job posting using the Google XYZ formula (${playbookData.resumePlaybook.formula}).
-Rules: ${playbookData.resumePlaybook.rules.join(" ")}
+  const { resume = "", job = {}, notes = "", platform } = await c.req.json().catch(() => ({}));
+  const boss = isBossRequest(user, [{ role: "user", content: `${resume} ${job.title || ""} ${job.description || ""}` }], platform);
+  const sys = `${buildUserVoiceSystem(user, boss)}
+Tailor this resume to the job posting using the ${boss ? bossPlaybookData.resumePlaybook.formula : playbookData.resumePlaybook.formula}.
+Rules: ${(boss ? bossPlaybookData.resumePlaybook.rules : playbookData.resumePlaybook.rules).join(" ")}
 Return JSON with:
 {
   "resume": {
@@ -423,6 +426,58 @@ Return JSON with:
     try {
       return c.json({ ok: true, ...JSON.parse(llmJson), usage });
     } catch {}
+  }
+
+  if (boss) {
+    const title = job.title || user.profile?.targetRole || "高级工程师/资深专家";
+    const co = job.company || "目标公司";
+    return c.json({
+      ok: true,
+      resume: {
+        name: user.profile?.name || "候选人姓名",
+        headline: `求职意向：${title} · ${job.location || user.profile?.location || "全国/一线城市"}`,
+        contact: {
+          email: user.email,
+          phone: "138-xxxx-xxxx",
+          location: job.location || user.profile?.location || "北京/上海/深圳/杭州",
+          linkedin: "",
+        },
+        summary: `深耕${title}相关领域，具备扎实的核心业务架构与落地经验。围绕「${co}」岗位需求，擅长全链路性能优化与高并发/核心指标增长，具备即插即用的实战能力。`,
+        skills: [
+          { group: "核心专业技能", items: [title, "核心业务架构与落地", "数据驱动增长", "跨团队协同推进"] },
+        ],
+        experience: [
+          {
+            title: user.profile?.currentRole || title,
+            company: "前核心业务团队",
+            start: "2022.03",
+            end: "至今",
+            location: job.location || "一线城市",
+            bullets: [
+              `针对${title}核心业务痛点，主导完成核心模块重构与链路优化，将核心转化/吞吐指标提升 [提升X%]，故障率降低 [降低Y%]。`,
+              `从 0 到 1 搭建高可用业务流水线，支撑日均 [Z万+] 核心请求，显著缩短交付周期 [缩短N天]。`,
+            ],
+          },
+        ],
+        projects: [
+          {
+            name: `${title}核心攻坚项目`,
+            bullets: [
+              `作为核心负责人拆解业务指标，通过精细化策略迭代，实现单季度业务核心指标净增 [X%]。`,
+            ],
+          },
+        ],
+        education: [{ school: "重点本科院校", degree: "本科", field: "相关专业", start: "2016", end: "2020" }],
+      },
+      match: { before: 58, after: 89, keywordsAdded: [title, "STAR量化成果", "核心业务指标对齐"] },
+      fillIns: ["[提升X%]", "[降低Y%]", "[Z万+]", "[缩短N天]"],
+      gaps: [
+        { gap: "量化业务指标待补充", advice: "点击简历编辑器中高亮的 [提升X%] 占位符，填入您真实的业务数据。" },
+      ],
+      changes: ["采用 STAR + XYZ 法则重构了工作与项目经历", `精准对齐了「${co} - ${title}」的岗位职责关键词`],
+      nextCost: 0,
+      usage,
+    });
   }
 
   return c.json({
@@ -459,10 +514,37 @@ Return JSON with:
 });
 
 async function handleResumeScore(c: any, user?: UserRecord) {
-  const { resume = "", text = "", target = "", role = "" } = await c.req.json().catch(() => ({}));
+  const { resume = "", text = "", target = "", role = "", platform } = await c.req.json().catch(() => ({}));
   const raw = resume || text;
-  const targetRole = target || role || user?.profile?.targetRole || "Target Role";
+  const boss = platform === "boss" || /[\u4e00-\u9fa5]{4,}/.test(`${raw} ${target} ${role}`);
+  const targetRole = target || role || user?.profile?.targetRole || (boss ? "目标岗位" : "Target Role");
   const usage = user ? await consumeCredits(c.env, user, 3, 10) : undefined;
+
+  if (boss) {
+    return c.json({
+      ok: true,
+      score: 78,
+      grade: "良好（可冲击90+）",
+      summary: `整体经历与「${targetRole}」具备较好相关性，但部分项目描述偏“职责流水账”，补充 STAR/XYZ 量化结果与 JD 高频词后将大幅提升 Boss 回复与约面率。`,
+      topFixes: [
+        `在【个人优势】前 3 行直接点明匹配「${targetRole}」的核心年限与最具代表性的 2 个量化成果。`,
+        "将工作经历中的『负责XX工作』改写为『主导XX动作，实现核心指标提升 X%（STAR/XYZ法则）』。",
+        `针对 Boss直聘岗位 JD 补充高频核心技能关键词，提升招聘端搜索权重。`,
+      ],
+      sections: bossPlaybookData.resumePlaybook.sections.map((s, idx) => ({
+        key: s.key,
+        label: s.label,
+        status: idx < 2 ? "improve" : "strong",
+        score: idx < 2 ? 7 : 8,
+        found: `已结合「${targetRole}」标准完成简历文本诊断（共 ${raw.length} 字）。`,
+        fix: "每段核心经历至少保留 2 个具体量化指标（如提升比例、耗时缩短、业务规模）。",
+        example: "主导核心链路重构，将接口 P99 耗时从 320ms 降至 95ms，支撑大促峰值 5 万 QPS 零故障。",
+      })),
+      keywordsMissing: [targetRole, "量化业务指标 (ROI/QPS/转化率)", "从0到1落地闭环"],
+      usage,
+    });
+  }
+
   return c.json({
     ok: true,
     score: 76,
