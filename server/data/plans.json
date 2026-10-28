@@ -1,0 +1,143 @@
+{
+  "plans": [
+    {
+      "id": "founding",
+      "name": "Founding",
+      "price": 15,
+      "priceLabel": "$15/mo",
+      "interval": "month",
+      "limits": {
+        "drafts": 500,
+        "conversations": null
+      },
+      "features": [
+        "500 credits a month",
+        "Openers, replies, comments and posts",
+        "Ask Max, Radar and profile score",
+        "Price locked for life (first 100 only)"
+      ],
+      "cta": "buy",
+      "trialDays": 5,
+      "soldOut": false
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "price": 29,
+      "priceLabel": "$29/mo",
+      "interval": "month",
+      "limits": {
+        "drafts": 1000,
+        "conversations": null
+      },
+      "features": [
+        "1,000 credits a month",
+        "Everything in Founding",
+        "Your industry playbook",
+        "Top up anytime: +250 credits for $10"
+      ],
+      "cta": "buy",
+      "trialDays": 5,
+      "highlight": true
+    },
+    {
+      "id": "autopilot",
+      "name": "Autopilot",
+      "price": 59,
+      "priceLabel": "$59/mo",
+      "interval": "month",
+      "limits": {
+        "drafts": 2000,
+        "conversations": null
+      },
+      "features": [
+        "2,000 credits a month",
+        "Autopilot reply queue: approve in one tap",
+        "Auto nudges and booking handoff",
+        "Everything in Pro"
+      ],
+      "cta": "buy",
+      "trialDays": 5
+    },
+    {
+      "id": "managed",
+      "name": "Managed Inbox",
+      "price": 397,
+      "priceLabel": "$397/mo",
+      "interval": "month",
+      "limits": {
+        "drafts": 3000,
+        "conversations": 100
+      },
+      "features": [
+        "Our team runs your LinkedIn inbox",
+        "100 conversations a month",
+        "Replies, nudges and booking calls",
+        "Weekly pipeline report",
+        "Top up: +50 conversations for $197"
+      ],
+      "cta": "buy",
+      "trialDays": 0
+    },
+    {
+      "id": "team",
+      "name": "Teams",
+      "price": 25,
+      "priceLabel": "$25/seat/mo",
+      "interval": "month",
+      "limits": {
+        "drafts": 1000,
+        "conversations": null
+      },
+      "features": [
+        "1,000 credits per seat a month",
+        "Autopilot for every rep",
+        "Shared playbook and one invoice",
+        "3 seat minimum"
+      ],
+      "cta": "demo",
+      "trialDays": 0,
+      "perSeat": true,
+      "minSeats": 3
+    }
+  ],
+  "topups": [
+    {
+      "kind": "drafts",
+      "label": "+250 credits",
+      "price": 10,
+      "amount": 250,
+      "plans": [
+        "founding",
+        "pro",
+        "autopilot",
+        "team"
+      ]
+    },
+    {
+      "kind": "conversations",
+      "label": "+50 conversations",
+      "price": 197,
+      "amount": 50,
+      "plans": [
+        "managed"
+      ]
+    }
+  ],
+  "foundingLeft": 100,
+  "free": {
+    "name": "Free",
+    "credits": 10,
+    "profileScores": 2,
+    "features": [
+      "10 credits a month",
+      "Openers, replies and Ask Max",
+      "Radar follow ups",
+      "2 profile scores with branded PDF",
+      "2 tailored resumes and 2 resume scores"
+    ]
+  },
+  "bookDemoUrl": "https://beacons.ai/mphtechacademy",
+  "bookKickoffUrl": "https://beacons.ai/mphtechacademy",
+  "chromeStoreUrl": "https://chromewebstore.google.com/detail/replymaxxing/cngnjcgjemhikeeikeheolijcgmdjkej"
+}

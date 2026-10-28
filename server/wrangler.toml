@@ -1,0 +1,33 @@
+name = "replymaxxing-api"
+main = "src/index.ts"
+compatibility_date = "2024-10-22"
+
+[vars]
+SITE_URL = "https://replymaxxing.com"
+BOOK_DEMO_URL = "https://beacons.ai/mphtechacademy"
+SUPPORT_EMAIL = "brian@mphtechacademy.com"
+# 默认模型配置（支持 OpenAI / DeepSeek / Gemini OpenAI兼容接口）
+LLM_BASE_URL = "https://api.openai.com/v1"
+LLM_MODEL = "gpt-4o-mini"
+# 自托管默认分配套餐: "autopilot" | "pro" | "founding" | "free"
+DEFAULT_PLAN = "autopilot"
+# 开发/自托管通用验证码（无需配置邮件即可直接用该验证码登录）
+DEV_OTP_CODE = "123456"
+
+# 如需绑定 Cloudflare D1 持久化数据库，取消下方注释并填入 database_id：
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "replymaxxing-db"
+# database_id = "your-d1-database-id"
+
+# 如需绑定 Cloudflare KV 缓存，取消下方注释并填入 id：
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "your-kv-namespace-id"
+
+# 敏感密钥通过 `wrangler secret put <NAME>` 设置或在 .dev.vars 中配置：
+# JWT_SECRET
+# LLM_API_KEY
+# RESEND_API_KEY
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET

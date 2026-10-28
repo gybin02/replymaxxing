@@ -1,0 +1,336 @@
+{
+  "version": "2.5.7",
+  "updatedAt": "2026-10-28T10:23:10.990Z",
+  "postPlaybook": {
+    "storyArc": [
+      "1. Hook (first 2 lines before 'see more' — must stop the scroll with a specific number, tension, or bold claim)",
+      "2. Setup (the real context or status quo the audience immediately recognizes)",
+      "3. Rising Action (the obstacle, friction, or turning point with concrete details)",
+      "4. Climax / Bold Statement (the core shift or non-obvious insight)",
+      "5. Takeaway (a quotable, low-ego closing line or open question people want to reply to)"
+    ],
+    "stages": [
+      {
+        "id": "attract",
+        "name": "Attract",
+        "short": "Reach"
+      },
+      {
+        "id": "engage",
+        "name": "Engage",
+        "short": "Trust"
+      },
+      {
+        "id": "convert",
+        "name": "Convert",
+        "short": "Leads"
+      }
+    ],
+    "types": [
+      {
+        "id": "trending",
+        "name": "Trending with a twist",
+        "stage": "attract",
+        "rules": "Take a topic trending right now. Back it with a real fact or number. Look at it through a different, slightly controversial lens. End with a takeaway the audience will repeat."
+      },
+      {
+        "id": "anonymous",
+        "name": "Anonymous story",
+        "stage": "attract",
+        "rules": "A real story about someone left unnamed (so you can share more detail). Hook with a number if possible. Build the rising action, make a bold statement as the climax, finish the story on a positive note, leave a takeaway."
+      },
+      {
+        "id": "perspective",
+        "name": "New perspective",
+        "stage": "engage",
+        "rules": "What the user knew or cared about a few years ago versus now. 3 to 5 contrasts the audience relates to so they think 'that's me'. Leave a takeaway."
+      },
+      {
+        "id": "numbers",
+        "name": "Numbers don't lie",
+        "stage": "attract",
+        "rules": "Paint a picture with numbers from years ago versus today (up or down). The more staggering the gap the better, and it must matter to the audience. Bold statement as the climax, then a takeaway."
+      },
+      {
+        "id": "career",
+        "name": "Personal career story",
+        "stage": "engage",
+        "rules": "An early career moment most people also lived. Strong hook with numbers where possible. If it's a win, tell it humbly. Leave a takeaway people relate to, never one they would resent."
+      },
+      {
+        "id": "conversation",
+        "name": "Real conversation",
+        "stage": "engage",
+        "rules": "Recreate a real conversation with only two characters, keeping only the lines that matter. Short lines. Share the lesson at the end to challenge how people think. Leave a takeaway."
+      },
+      {
+        "id": "oneliner",
+        "name": "One-liner",
+        "stage": "attract",
+        "rules": "One bold statement with no context, about something the audience cares about, built to get people arguing both sides in the comments. No takeaway needed. Always add a short sign off like 'That's all.'"
+      },
+      {
+        "id": "hypothetical",
+        "name": "Hypothetical conversation",
+        "stage": "engage",
+        "rules": "A made up two character exchange about one core pain point the audience has. Each line short and easy to read. Drive to one clear point, then a takeaway."
+      },
+      {
+        "id": "praise",
+        "name": "Praise the prospect",
+        "stage": "convert",
+        "rules": "Hook that names the intended audience. A personal story, told with Freytag's Pyramid, that shows their value. Close with direct appreciation for that audience's expertise or character as the takeaway."
+      },
+      {
+        "id": "chronological",
+        "name": "Chronological events",
+        "stage": "engage",
+        "rules": "Start at the earliest point and walk forward in time, using dates or a timeline. First line is still a scroll stopper. Each line short. Numbers for emphasis. Leave a takeaway."
+      },
+      {
+        "id": "beforeafter",
+        "name": "Before & after",
+        "stage": "engage",
+        "rules": "How something looked before versus after (a mindset, a profile, a job search, a career). Focus on what the audience feels. Leave a takeaway."
+      },
+      {
+        "id": "testimonial",
+        "name": "Customer testimonial",
+        "stage": "convert",
+        "rules": "The story of a client the user got a great result for. Hook that makes people read on. Name big companies if it adds credibility. Show the starting point and the challenge so the impact is clear. Add encouragement for the reader. Leave a takeaway."
+      },
+      {
+        "id": "brag",
+        "name": "Brag about someone",
+        "stage": "engage",
+        "rules": "Celebrate a family member, client, teammate or friend. Feel good hook. Just state the facts with numbers for emphasis. Makes the user more human, which builds trust. Suggest a photo. Leave a takeaway."
+      },
+      {
+        "id": "compare",
+        "name": "Average vs amazing",
+        "stage": "attract",
+        "rules": "Short side by side comparisons (average X vs amazing X). Same opening words on every pair, the twist in the second half of each. Optionally a third column like 'bad'. End with a takeaway."
+      },
+      {
+        "id": "teach",
+        "name": "Teach something new",
+        "stage": "engage",
+        "rules": "Deep dive on one thing the user knows well. Break it into 3 to 5 actionable steps, not high level fluff. Share one resource that helps. Works as a carousel too."
+      },
+      {
+        "id": "screenshot",
+        "name": "Share a screenshot",
+        "stage": "attract",
+        "rules": "React to a post or tweet that already went viral and matches the user's philosophy. Always credit the creator by name. Add only 1 to 2 lines to the thought. Output the reaction text and say what to screenshot."
+      },
+      {
+        "id": "lifestory",
+        "name": "Personal life story",
+        "stage": "engage",
+        "rules": "Something the audience doesn't know about the user yet. Share details but don't expose everything. End with an encouraging thought and a takeaway. Suggest a photo for reach."
+      },
+      {
+        "id": "lifelist",
+        "name": "Life list",
+        "stage": "attract",
+        "rules": "A list of 5 to 10 things the user learned (in their career, business or field), or things he doesn't regret, or priorities. Resonates widely. Invite the audience to add their own in the comments."
+      }
+    ]
+  },
+  "conversationPlaybook": {
+    "stages": [
+      {
+        "id": "Opener",
+        "goal": "Get a warm first reply by referencing something specific they posted or built, ending with one easy question. Never pitch in line one."
+      },
+      {
+        "id": "Rapport",
+        "goal": "Build mutual context and trust. Share one brief relevant observation and ask about their current priority or bottleneck."
+      },
+      {
+        "id": "Intent",
+        "goal": "Uncover the concrete problem, timeline, or hiring/buying need they mentioned."
+      },
+      {
+        "id": "Offer",
+        "goal": "Connect their stated need to how you help (or your background) and suggest a low-friction next step."
+      },
+      {
+        "id": "Booked",
+        "goal": "Hand off the booking link or resume/portfolio cleanly and confirm the time."
+      }
+    ],
+    "styles": {
+      "conversational": "Hi Sam, your post on hiring really landed. Growing a team that fast isn't easy. Curious, what's been the hardest part?",
+      "casual": "hey Sam, loved your post on hiring lol. Curious, how's the team growing?",
+      "warm": "Hi Sam, your post on hiring really stuck with me. Curious, what's been the biggest lesson so far?",
+      "direct": "Sam, great post on hiring. Curious, what's your biggest hiring gap this quarter?",
+      "polished": "Hi Sam, I enjoyed your perspective on hiring. Curious, what are you prioritizing this quarter?",
+      "playful": "Sam, that hiring post was a whole masterclass haha. Curious, who's the lucky next hire?"
+    }
+  },
+  "profileRubric": [
+    {
+      "key": "headline",
+      "label": "Headline",
+      "weight": 20,
+      "criteria": "Does it say who you help or the role you want, your niche, and one concrete result?"
+    },
+    {
+      "key": "about",
+      "label": "About",
+      "weight": 15,
+      "criteria": "Does the first 3 lines hook with the problem you solve, prove it with 2-3 quantified wins, and end with a clear next step?"
+    },
+    {
+      "key": "experience",
+      "label": "Experience",
+      "weight": 15,
+      "criteria": "Do roles show outcomes with numbers (XYZ formula) instead of just listing job duties?"
+    },
+    {
+      "key": "featured",
+      "label": "Featured",
+      "weight": 10,
+      "criteria": "Is there a case study, portfolio piece, top post, or booking link pinned up front?"
+    },
+    {
+      "key": "proof",
+      "label": "Proof",
+      "weight": 10,
+      "criteria": "Are there specific numbers, client/company names, recommendations, and credible outcomes?"
+    },
+    {
+      "key": "banner",
+      "label": "Banner",
+      "weight": 10,
+      "criteria": "Does the 1584x396 cover image clearly communicate what you do and who you serve?"
+    },
+    {
+      "key": "photo",
+      "label": "Photo",
+      "weight": 5,
+      "criteria": "Is the profile photo clear, close-up, well-lit, and approachable?"
+    },
+    {
+      "key": "activity",
+      "label": "Activity",
+      "weight": 5,
+      "criteria": "Are you visibly posting or leaving thoughtful comments where your target audience hangs out?"
+    },
+    {
+      "key": "skills",
+      "label": "Skills",
+      "weight": 5,
+      "criteria": "Are top skills aligned with the keywords recruiters or buyers search for?"
+    },
+    {
+      "key": "contact",
+      "label": "Contact",
+      "weight": 5,
+      "criteria": "Can someone reach you or book a call in one click?"
+    }
+  ],
+  "resumePlaybook": {
+    "formula": "Google XYZ Formula: Accomplished [X], as measured by [Y], by doing [Z].",
+    "rules": [
+      "Never invent employers, titles, dates, degrees, or metrics. Use [X%] or [N] placeholders where the user needs to fill in real numbers.",
+      "Keep layout strictly one-column and ATS-friendly with standard headings: Summary, Skills, Experience, Projects, Education, Certifications.",
+      "Match exact keywords from the job description where the candidate genuinely has the experience."
+    ],
+    "sections": [
+      {
+        "key": "impact",
+        "label": "Impact & XYZ Bullets"
+      },
+      {
+        "key": "keywords",
+        "label": "Keyword & Role Match"
+      },
+      {
+        "key": "summary",
+        "label": "Summary & Positioning"
+      },
+      {
+        "key": "ats",
+        "label": "ATS Structure & Clarity"
+      },
+      {
+        "key": "proof",
+        "label": "Metrics & Credibility"
+      }
+    ]
+  },
+  "industryPlaybooks": {
+    "job_seeker": {
+      "role": "Job seeker",
+      "summary": "Get hiring managers and recruiters to reply by leading with their work, tailoring your resume with the XYZ formula, and reaching out within 24 hours of applying.",
+      "openerFramework": "1. Reference a specific project, launch, or post from the hiring manager or team.\n2. Connect one relevant win from your background in half a sentence.\n3. Ask one thoughtful question about what the team is shipping next (hold the ask for a referral/interview until they reply).",
+      "replyFramework": "Answer their question directly, share one quantified example of similar work, and offer to send your tailored resume or hop on a 10-minute intro call.",
+      "sampleOpener": [
+        "Dana, 4.1s to 1.6s on checkout is a huge win for a page that busy.",
+        "Curious, what's the team shipping next now that it's fast?"
+      ]
+    },
+    "founder": {
+      "role": "Founder",
+      "summary": "Win customers, investors, and key hires by leading with curiosity about how they operate today before ever mentioning your product.",
+      "openerFramework": "1. Praise a specific metric, decision, or lesson they shared publicly.\n2. Ask one low-friction question about how they handle that problem today.\n3. Never pitch or drop a link in the first message.",
+      "replyFramework": "Acknowledge their answer, share one insight from what you're seeing across similar teams, and ask if they're open to swapping notes or seeing how you solved it.",
+      "sampleOpener": [
+        "Chris, rebuilding onboarding in public is a bold move, and half is a number most teams hide.",
+        "Curious, what's the first thing a new trial sees right after signup?"
+      ]
+    },
+    "sales": {
+      "role": "Sales or BD",
+      "summary": "Book more meetings by turning real trigger events (promotions, hiring sprees, funding, posts) into short, insider-level conversations.",
+      "openerFramework": "1. Congratulate or reference a real trigger event (new role, team growth, recent post).\n2. Ask what sits at the top of their priority list in this phase.\n3. Keep it under 35 words with zero sales jargon.",
+      "replyFramework": "Mirror their priority, validate the bottleneck, and offer a specific benchmark or 15-minute walkthrough only once intent is clear.",
+      "sampleOpener": [
+        "Congrats on Head of People, Priya. Doubling a team in a year is no small thing.",
+        "Curious, what's first on your list in the new role?"
+      ]
+    },
+    "recruiter": {
+      "role": "Recruiter",
+      "summary": "Get top candidates and hiring leaders to reply by showing you actually read their work and holding the pitch until they show interest.",
+      "openerFramework": "1. Call out a concrete achievement or launch from their profile/posts.\n2. Ask what kind of scope or challenge they'd want to own next (for candidates) or where their biggest hiring bottleneck is (for clients).",
+      "replyFramework": "Share the 2-sentence highlight of the role/talent and ask if they're open to a quick 10-minute chat this week.",
+      "sampleOpener": [
+        "Alex, three launches in a year is a serious pace, congrats to you and the team.",
+        "Curious, what kind of launch would you want to own next?"
+      ]
+    },
+    "consultant": {
+      "role": "Consultant or coach",
+      "summary": "Fill your calendar with discovery calls by leading with helpful diagnostics, free profile audits, and problem-first conversations.",
+      "openerFramework": "1. Spot something specific in their post or profile.\n2. Offer a genuine observation without diagnosing unsolicited problems.\n3. End with an easy question about their current focus.",
+      "replyFramework": "Share one actionable tip or offer a quick audit/resource, then invite them to book a call when they ask how your program works.",
+      "sampleOpener": [
+        "Maya, your point on first-time managers struggling with 1:1s is spot on.",
+        "Curious, are you seeing that more with remote teams or hybrid ones right now?"
+      ]
+    },
+    "freelancer": {
+      "role": "Freelancer or agency",
+      "summary": "Win projects and retainers by reaching out to teams launching something new and showing relevant proof instead of generic cold pitches.",
+      "openerFramework": "1. Compliment a recent launch, redesign, or campaign.\n2. Ask one question about what they're building or testing next.",
+      "replyFramework": "Share 1-2 relevant examples from past clients and offer to send over 2 quick ideas tailored to their page/product.",
+      "sampleOpener": [
+        "Saw the new landing page launch, Jordan — super clean hero section.",
+        "Curious, are you guys testing new onboarding flows next or focused on top-of-funnel?"
+      ]
+    },
+    "other": {
+      "role": "Professional",
+      "summary": "Grow a high-trust LinkedIn network by starting genuine conversations around shared work and insights.",
+      "openerFramework": "1. Mention a specific takeaway from their post or career path.\n2. Ask an open question they'll enjoy answering.",
+      "replyFramework": "Keep the exchange natural, share your perspective concisely, and suggest staying in touch or hopping on a quick coffee chat.",
+      "sampleOpener": [
+        "Really enjoyed your breakdown on product velocity this week.",
+        "Curious, what changed your mind most on that over the last year?"
+      ]
+    }
+  }
+}
